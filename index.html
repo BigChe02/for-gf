@@ -64,13 +64,23 @@
       background: #ff3366;
       color: white;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: all 0.5s ease;
       width: auto;
       min-width: 180px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    #loveBtn:hover {
+      transform: scale(1.05);
+      background: #ff0040;
     }
 
     #noBtn {
       background: #666;
+    }
+
+    #noBtn:hover {
+      background: #555;
     }
 
     .heart {
@@ -106,12 +116,18 @@
       object-fit: cover;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
       display: block;
+      transition: transform 0.5s ease;
+    }
+
+    #mainImage:hover {
+      transform: scale(1.03);
     }
 
     #finalMessage {
       font-size: 2.2rem;
       color: hwb(326 0% 16%);
       margin-top: 25px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
 
     #wishMessage {
@@ -120,6 +136,7 @@
       margin: 15px 0;
       white-space: pre-line;
       padding: 0 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     /* overlay ล็อคหน้าจอ */
@@ -156,6 +173,17 @@
       }
     }
 
+    /* เอฟเฟกต์พิเศษสำหรับปุ่มรัก */
+    .love-grow {
+      animation: pulse 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
   </style>
 </head>
 <body>
@@ -167,8 +195,12 @@
     <button onclick="checkName()">ตกลง</button>
     <p id="error" style="color:yellow;"></p>
 
-    <audio id="bgMusic" src="Pretty Eyes.mp3" loop></audio>
-    <audio id="yaySound" src="yay.mp3"></audio>
+    <audio id="bgMusic" loop>
+      <source src="Pretty Eyes.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="yaySound">
+      <source src="yay.mp3" type="audio/mpeg">
+    </audio>
   </div>
 
   <!-- overlay ล็อคหน้าจอ -->
@@ -177,7 +209,7 @@
   <!-- หน้าอวยพร -->
   <div id="page2">
     <h1 id="birthdayTitle">สุขสันต์วันเกิด🎂</h1>
-    <img id="mainImage" src="love.jpg" alt="รูปเเฟน">
+    <img id="mainImage" src="love.jpg" alt="รูปวันเกิด">
     <p id="wishMessage"></p>
     
     <div id="buttons">
@@ -212,6 +244,7 @@
         // เสียงเพลงและ YAY
         const music = document.getElementById("bgMusic");
         const yay = document.getElementById("yaySound");
+        music.volume = 0.5;
         music.play().catch(() => {
           alert("กดตกลงเพื่อเริ่มเล่นเพลง 🎶");
           music.play();
@@ -271,30 +304,71 @@
       const noBtn = document.getElementById("noBtn");
       const loveBtn = document.getElementById("loveBtn");
 
+      // เพิ่มเอฟเฟกต์ให้ปุ่มรักเต้น
+      loveBtn.classList.add('love-grow');
+      setTimeout(() => loveBtn.classList.remove('love-grow'), 500);
+
       if (wrongCount <= noImages.length) {
         document.getElementById("mainImage").src = noImages[wrongCount - 1];
       }
 
+      // ขยายขนาดปุ่มรัก
       let loveSize = 1.8 + wrongCount * 0.4;
       loveBtn.style.fontSize = loveSize + "rem";
       loveBtn.style.padding = (18 + wrongCount * 4) + "px " + (30 + wrongCount * 6) + "px";
 
+      // ลดขนาดปุ่มไม่รัก
       let noSize = Math.max(1.8 - wrongCount * 0.2, 0.8);
       noBtn.style.fontSize = noSize + "rem";
       noBtn.style.padding = Math.max(8, 18 - wrongCount * 2) + "px " + Math.max(15, 30 - wrongCount * 3) + "px";
 
+      // เปลี่ยนสีพื้นหลังปุ่มรักให้เด่นขึ้น
+      loveBtn.style.background = `hsl(${340 + wrongCount * 5}, 100%, 50%)`;
+      loveBtn.style.boxShadow = `0 0 ${10 + wrongCount * 2}px rgba(255, 0, 64, 0.7)`;
+
       if (wrongCount >= 5) {
         noBtn.style.display = "none";
+        // ข้อความพิเศษเมื่อปุ่มไม่รักหายไป
+        document.getElementById("finalMessage").innerText = "สุดท้ายเธอก็ต้องเลือกรักฉันสินะ! 😘";
       }
     }
 
     function loveClicked() {
       const yippeeSound = new Audio("yippee.mp3");
-        yippeeSound.play();  
-      document.getElementById("finalMessage").innerText = "คร้าบบ เค้าก็รักอ้วนเหมือนกันนะ 💕";
+      yippeeSound.play();  
+      document.getElementById("finalMessage").innerText = "คร้าบบ เค้าก็รักเธอเหมือนกันนะ 💕";
       document.getElementById("mainImage").src = "https://media.tenor.com/5nSKlBlwdkIAAAAm/cat.webp";
       document.getElementById("loveBtn").style.display = "none";
       document.getElementById("noBtn").style.display = "none";
+      
+      // เพิ่มหัวใจมากขึ้น
+      clearInterval(heartInterval);
+      setInterval(() => {
+        for (let i = 0; i < 5; i++) {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.innerHTML = "❤️";
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.bottom = "0px";
+          heart.style.fontSize = (30 + Math.random()*30) + "px";
+          document.body.appendChild(heart);
+          setTimeout(() => heart.remove(), 8000);
+        }
+      }, 300);
+    }
+
+    let heartInterval;
+    function startHearts() {
+      heartInterval = setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.bottom = "0px";
+        heart.style.fontSize = (25 + Math.random()*25) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }, 600);
     }
   </script>
 </body>
