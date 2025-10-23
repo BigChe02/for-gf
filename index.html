@@ -2,8 +2,13 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Birthday Surprise</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
       height: 100vh;
@@ -15,6 +20,7 @@
       font-family: 'Segoe UI', sans-serif;
       overflow: hidden;
       text-align: center;
+      padding: 15px;
     }
 
     h1, h2, p {
@@ -22,23 +28,45 @@
       text-shadow: 2px 2px 4px #ff69b4;
     }
 
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
     input, button {
-      padding: 12px 25px;
-      margin: 10px;
-      font-size: 1.2em;
+      padding: 18px 30px;
+      margin: 15px;
+      font-size: 1.4rem;
       border: none;
-      border-radius: 20px;
+      border-radius: 25px;
       cursor: pointer;
       transition: all 0.3s ease;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    input {
+      text-align: center;
     }
 
     #loveBtn, #noBtn {
-      font-size: 1.5em;
-      padding: 12px 25px;
+      font-size: 1.8rem;
+      padding: 18px 30px;
       background: #ff3366;
       color: white;
       opacity: 0;
       transition: opacity 1s ease;
+      width: auto;
+      min-width: 180px;
     }
 
     #noBtn {
@@ -47,7 +75,7 @@
 
     .heart {
       position: absolute;
-      font-size: 2em;
+      font-size: 2.5rem;
       color: red;
       animation: floatUp 8s linear forwards;
     }
@@ -62,6 +90,7 @@
       opacity: 0;
       transform: scale(0.9);
       transition: all 1s ease;
+      width: 100%;
     }
 
     #page2.show {
@@ -70,25 +99,27 @@
     }
 
     #mainImage {
-      width: 220px;
-      height: 220px;
+      width: 280px;
+      height: 280px;
       border-radius: 20px;
-      margin: 20px;
+      margin: 25px auto;
       object-fit: cover;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: block;
     }
 
     #finalMessage {
-      font-size: 2em;
+      font-size: 2.2rem;
       color: hwb(326 0% 16%);
-      margin-top: 20px;
+      margin-top: 25px;
     }
 
     #wishMessage {
-      font-size: 1.3em;
+      font-size: 1.5rem;
       color: yellow;
-      margin: 10px 0;
+      margin: 15px 0;
       white-space: pre-line;
+      padding: 0 10px;
     }
 
     /* overlay ล็อคหน้าจอ */
@@ -100,16 +131,31 @@
       z-index: 1000;
     }
 
-     /* ปรับขนาดสำหรับหน้าจอเล็ก */
-    @media (max-width: 500px) {
-      h1 { font-size: 1.2em; }
-      h2 { font-size: 1.1em; }
-      input, button { font-size: 0.9em; padding: 8px 16px; }
-      #finalMessage { font-size: 1.2em; }
-      #wishMessage { font-size: 0.9em; }
-      #loveBtn, #noBtn { font-size: 1em; padding: 8px 16px; }
-    } 
-    
+    #buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    /* สำหรับหน้าจอขนาดเล็กมาก */
+    @media (max-width: 360px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      #mainImage {
+        width: 240px;
+        height: 240px;
+      }
+      
+      #loveBtn, #noBtn {
+        font-size: 1.6rem;
+        padding: 15px 25px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -214,7 +260,7 @@
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * window.innerWidth + "px";
         heart.style.bottom = "0px";
-        heart.style.fontSize = (20 + Math.random()*20) + "px";
+        heart.style.fontSize = (25 + Math.random()*25) + "px";
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 8000);
       }, 600);
@@ -229,13 +275,13 @@
         document.getElementById("mainImage").src = noImages[wrongCount - 1];
       }
 
-      let loveSize = 1.5 + wrongCount * 0.4;
-      loveBtn.style.fontSize = loveSize + "em";
-      loveBtn.style.padding = (12 + wrongCount * 4) + "px " + (25 + wrongCount * 6) + "px";
+      let loveSize = 1.8 + wrongCount * 0.4;
+      loveBtn.style.fontSize = loveSize + "rem";
+      loveBtn.style.padding = (18 + wrongCount * 4) + "px " + (30 + wrongCount * 6) + "px";
 
-      let noSize = Math.max(1.5 - wrongCount * 0.2, 0.5);
-      noBtn.style.fontSize = noSize + "em";
-      noBtn.style.padding = Math.max(5, 12 - wrongCount * 2) + "px " + Math.max(10, 25 - wrongCount * 3) + "px";
+      let noSize = Math.max(1.8 - wrongCount * 0.2, 0.8);
+      noBtn.style.fontSize = noSize + "rem";
+      noBtn.style.padding = Math.max(8, 18 - wrongCount * 2) + "px " + Math.max(15, 30 - wrongCount * 3) + "px";
 
       if (wrongCount >= 5) {
         noBtn.style.display = "none";
