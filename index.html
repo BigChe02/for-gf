@@ -2,12 +2,11 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Birthday Surprise</title>
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -16,21 +15,17 @@
       font-family: 'Segoe UI', sans-serif;
       overflow: hidden;
       text-align: center;
-      padding: 10px;
-      box-sizing: border-box;
     }
 
     h1, h2, p {
       color: white;
       text-shadow: 2px 2px 4px #ff69b4;
-      margin: 0.5em 0;
-      word-wrap: break-word;
     }
 
     input, button {
-      padding: 16px 30px;
-      margin: 12px;
-      font-size: 1.5em;
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 1.2em;
       border: none;
       border-radius: 20px;
       cursor: pointer;
@@ -38,10 +33,12 @@
     }
 
     #loveBtn, #noBtn {
-      font-size: 2em;
-      padding: 16px 30px;
+      font-size: 1.5em;
+      padding: 12px 25px;
+      background: #ff3366;
+      color: white;
       opacity: 0;
-      transition: opacity 1s ease, font-size 0.3s ease, padding 0.3s ease;
+      transition: opacity 1s ease;
     }
 
     #noBtn {
@@ -50,7 +47,7 @@
 
     .heart {
       position: absolute;
-      font-size: 2.5em;
+      font-size: 2em;
       color: red;
       animation: floatUp 8s linear forwards;
     }
@@ -65,8 +62,6 @@
       opacity: 0;
       transform: scale(0.9);
       transition: all 1s ease;
-      width: 100%;
-      max-width: 450px;
     }
 
     #page2.show {
@@ -75,11 +70,10 @@
     }
 
     #mainImage {
-      width: 90%;
-      max-width: 300px;
-      height: auto;
+      width: 220px;
+      height: 220px;
       border-radius: 20px;
-      margin: 20px 0;
+      margin: 20px;
       object-fit: cover;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
@@ -88,34 +82,22 @@
       font-size: 2em;
       color: hwb(326 0% 16%);
       margin-top: 20px;
-      word-wrap: break-word;
     }
 
     #wishMessage {
-      font-size: 1.5em;
+      font-size: 1.3em;
       color: yellow;
-      margin: 15px 0;
+      margin: 10px 0;
       white-space: pre-line;
-      word-wrap: break-word;
     }
 
+    /* overlay ล็อคหน้าจอ */
     #overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0,0,0,0);
       z-index: 1000;
-    }
-
-    /* สำหรับหน้าจอเล็กจริง ๆ */
-    @media (max-width: 450px) {
-      h1 { font-size: 1.8em; }
-      h2 { font-size: 1.6em; }
-      input, button { font-size: 1.4em; padding: 14px 28px; }
-      #finalMessage { font-size: 1.8em; }
-      #wishMessage { font-size: 1.3em; }
-      #loveBtn, #noBtn { font-size: 1.8em; padding: 14px 28px; }
-      .heart { font-size: 2em; }
     }
   </style>
 </head>
@@ -167,8 +149,10 @@
         const page2 = document.getElementById("page2");
         page2.style.display = "block";
 
+        // แสดง overlay ล็อคหน้าจอ
         document.getElementById("overlay").style.display = "block";
 
+        // เสียงเพลงและ YAY
         const music = document.getElementById("bgMusic");
         const yay = document.getElementById("yaySound");
         music.play().catch(() => {
@@ -177,8 +161,13 @@
         });
         yay.play();
 
+        // แอนิเมชันโชว์หน้า
         setTimeout(() => page2.classList.add("show"), 100);
+
+        // เริ่มหัวใจ
         startHearts();
+
+        // พิมพ์ข้อความอวยพรทีละตัว
         typeMessage();
       } else {
         document.getElementById("error").innerText = "ลองใหม่สิ ยังไม่ถูกนะ 😉";
@@ -198,6 +187,7 @@
         i++;
         if (i >= text.length) {
           clearInterval(typing);
+          // ข้อความพิมพ์เสร็จ → ลบ overlay และโชว์ปุ่ม
           document.getElementById("overlay").style.display = "none";
           loveBtn.style.opacity = "1";
           noBtn.style.opacity = "1";
@@ -205,6 +195,7 @@
       }, speed);
     }
 
+    // หัวใจลอยขึ้น
     function startHearts() {
       setInterval(() => {
         const heart = document.createElement("div");
@@ -212,10 +203,10 @@
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * window.innerWidth + "px";
         heart.style.bottom = "0px";
-        heart.style.fontSize = (30 + Math.random()*20) + "px";
+        heart.style.fontSize = (20 + Math.random()*20) + "px";
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 8000);
-      }, 500);
+      }, 600);
     }
 
     function noClicked() {
@@ -227,13 +218,13 @@
         document.getElementById("mainImage").src = noImages[wrongCount - 1];
       }
 
-      let loveSize = 2 + wrongCount * 0.4;
+      let loveSize = 1.5 + wrongCount * 0.4;
       loveBtn.style.fontSize = loveSize + "em";
-      loveBtn.style.padding = (16 + wrongCount * 4) + "px " + (30 + wrongCount * 6) + "px";
+      loveBtn.style.padding = (12 + wrongCount * 4) + "px " + (25 + wrongCount * 6) + "px";
 
-      let noSize = Math.max(2 - wrongCount * 0.2, 0.5);
+      let noSize = Math.max(1.5 - wrongCount * 0.2, 0.5);
       noBtn.style.fontSize = noSize + "em";
-      noBtn.style.padding = Math.max(5, 16 - wrongCount * 2) + "px " + Math.max(10, 30 - wrongCount * 3) + "px";
+      noBtn.style.padding = Math.max(5, 12 - wrongCount * 2) + "px " + Math.max(10, 25 - wrongCount * 3) + "px";
 
       if (wrongCount >= 5) {
         noBtn.style.display = "none";
@@ -242,7 +233,7 @@
 
     function loveClicked() {
       const yippeeSound = new Audio("yippee.mp3");
-      yippeeSound.play();  
+        yippeeSound.play();  
       document.getElementById("finalMessage").innerText = "คร้าบบ เค้าก็รักอ้วนเหมือนกันนะ 💕";
       document.getElementById("mainImage").src = "https://media.tenor.com/5nSKlBlwdkIAAAAm/cat.webp";
       document.getElementById("loveBtn").style.display = "none";
