@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Birthday Surprise</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       height: 100vh;
@@ -22,26 +19,10 @@
       text-align: center;
       padding: 15px;
     }
-
-    h1, h2, p {
-      color: white;
-      text-shadow: 2px 2px 4px #ff69b4;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: 1.8rem;
-    }
-
-    p {
-      font-size: 1.2rem;
-      line-height: 1.5;
-    }
-
+    h1, h2, p { color: white; text-shadow: 2px 2px 4px #ff69b4; }
+    h1 { font-size: 2.2rem; margin-bottom: 20px; }
+    h2 { font-size: 1.8rem; }
+    p { font-size: 1.2rem; line-height: 1.5; }
     input, button {
       padding: 18px 30px;
       margin: 15px;
@@ -53,34 +34,38 @@
       width: 90%;
       max-width: 400px;
     }
+    input { text-align: center; }
 
-    input {
-      text-align: center;
-    }
-
+    /* ปุ่มเลือกรัก/ไม่รัก */
     #loveBtn, #noBtn {
       font-size: 1.8rem;
       padding: 18px 30px;
-      background: #ff3366;
       color: white;
-      opacity: 0;
+      opacity: 1;
       transition: all 0.5s ease;
-      width: auto;
       min-width: 180px;
+      border-radius: 25px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
+    #loveBtn { background: #ff3366; }
+    #loveBtn:hover { transform: scale(1.05); background: #ff0040; }
+    #noBtn { background: #666; }
+    #noBtn:hover { background: #555; }
 
-    #loveBtn:hover {
+    /* ปุ่มต่อไป */
+    #nextBtn {
+      background: #ff69b4;   /* สีชมพู */
+      color: white;
+      font-size: 1.6rem;
+      padding: 15px 25px;
+      border-radius: 25px;
+      display: none;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+    }
+    #nextBtn:hover {
+      background: #ff1493;
       transform: scale(1.05);
-      background: #ff0040;
-    }
-
-    #noBtn {
-      background: #666;
-    }
-
-    #noBtn:hover {
-      background: #555;
     }
 
     .heart {
@@ -89,101 +74,34 @@
       color: red;
       animation: floatUp 8s linear forwards;
     }
-
     @keyframes floatUp {
       from { transform: translateY(0); opacity: 1; }
       to { transform: translateY(-120vh); opacity: 0; }
     }
 
-    #page2 {
-      display: none;
-      opacity: 0;
-      transform: scale(0.9);
-      transition: all 1s ease;
-      width: 100%;
-    }
-
-    #page2.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-
+    #page2 { display: none; opacity: 0; transform: scale(0.9); transition: all 1s ease; width: 100%; }
+    #page2.show { opacity: 1; transform: scale(1); }
     #mainImage {
-      width: 280px;
-      height: 280px;
-      border-radius: 20px;
-      margin: 25px auto;
-      object-fit: cover;
+      width: 280px; height: 280px; border-radius: 20px;
+      margin: 25px auto; object-fit: cover;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
       display: block;
       transition: transform 0.5s ease;
     }
+    #mainImage:hover { transform: scale(1.03); }
+    #finalMessage { font-size: 2.2rem; color: hwb(326 0% 16%); margin-top: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    #wishMessage { font-size: 1.5rem; color: yellow; margin: 15px 0; white-space: pre-line; padding: 0 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0); z-index: 1000; }
+    #buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
 
-    #mainImage:hover {
-      transform: scale(1.03);
-    }
-
-    #finalMessage {
-      font-size: 2.2rem;
-      color: hwb(326 0% 16%);
-      margin-top: 25px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    #wishMessage {
-      font-size: 1.5rem;
-      color: yellow;
-      margin: 15px 0;
-      white-space: pre-line;
-      padding: 0 10px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-
-    /* overlay ล็อคหน้าจอ */
-    #overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0);
-      z-index: 1000;
-    }
-
-    #buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    /* สำหรับหน้าจอขนาดเล็กมาก */
     @media (max-width: 360px) {
-      h1 {
-        font-size: 1.8rem;
-      }
-      
-      #mainImage {
-        width: 240px;
-        height: 240px;
-      }
-      
-      #loveBtn, #noBtn {
-        font-size: 1.6rem;
-        padding: 15px 25px;
-      }
+      h1 { font-size: 1.8rem; }
+      #mainImage { width: 240px; height: 240px; }
+      #loveBtn, #noBtn { font-size: 1.6rem; padding: 15px 25px; }
     }
 
-    /* เอฟเฟกต์พิเศษสำหรับปุ่มรัก */
-    .love-grow {
-      animation: pulse 0.5s ease;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
+    .love-grow { animation: pulse 0.5s ease; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -203,7 +121,6 @@
     </audio>
   </div>
 
-  <!-- overlay ล็อคหน้าจอ -->
   <div id="overlay" style="display:none;"></div>
 
   <!-- หน้าอวยพร -->
@@ -212,17 +129,24 @@
     <img id="mainImage" src="love.jpg" alt="รูปวันเกิด">
     <p id="wishMessage"></p>
     
-    <div id="buttons">
-      <button id="loveBtn" onclick="loveClicked()">รัก 💖</button>
-      <button id="noBtn" onclick="noClicked()">ไม่รัก 💔</button>
+    <!-- ปุ่ม "ต่อไป" -->
+    <button id="nextBtn" onclick="showQuestion()">ต่อไป ➡️</button>
+
+    <!-- คำถามและปุ่มเลือก -->
+    <div id="question" style="display:none; margin-top:20px;">
+      <h2>เธอรักเค้าไหม??</h2>
+      <div id="buttons">
+        <button id="loveBtn" onclick="loveClicked()">รัก 💖</button>
+        <button id="noBtn" onclick="noClicked()">ไม่รัก 💔</button>
+      </div>
     </div>
+
     <h2 id="finalMessage"></h2>
   </div>
 
   <script>
     let wrongCount = 0;
     const correctName = "05/01/2550";
-
     const noImages = [
       "https://media.tenor.com/IiOXtwAciV8AAAAM/sad.gif",
       "https://media.tenor.com/NQfq1liFH-8AAAAM/byuntear-sad.gif",
@@ -238,26 +162,16 @@
         const page2 = document.getElementById("page2");
         page2.style.display = "block";
 
-        // แสดง overlay ล็อคหน้าจอ
         document.getElementById("overlay").style.display = "block";
 
-        // เสียงเพลงและ YAY
         const music = document.getElementById("bgMusic");
         const yay = document.getElementById("yaySound");
         music.volume = 0.5;
-        music.play().catch(() => {
-          alert("กดตกลงเพื่อเริ่มเล่นเพลง 🎶");
-          music.play();
-        });
+        music.play().catch(() => { alert("กดตกลงเพื่อเริ่มเล่นเพลง 🎶"); music.play(); });
         yay.play();
 
-        // แอนิเมชันโชว์หน้า
         setTimeout(() => page2.classList.add("show"), 100);
-
-        // เริ่มหัวใจ
         startHearts();
-
-        // พิมพ์ข้อความอวยพรทีละตัว
         typeMessage();
       } else {
         document.getElementById("error").innerText = "ลองใหม่สิ ยังไม่ถูกนะ 😉";
@@ -265,11 +179,8 @@
     }
 
     function typeMessage() {
-      const text = "ขอบคุณนะที่อยู่กับเค้ามาโดยตลอด🥰 รักเธอมากๆๆๆเลยนะคับคนดีของพี่🫰เค้าไม่เคยผิดหวังในตัวเธอเลยนะ แล้วก็ไม่เคยเสียใจที่มีเธอคอยอยู่เคียงข้างเค้า 💪💪สุขสันต์วันเกิดนะคับสุดสวย 💖\nเเล้วเธอหละรักเค้าไหม??";
+      const text = "ขอบคุณนะที่อยู่กับเค้ามาโดยตลอด🥰 รักเธอมากๆๆๆเลยนะคับคนดีของพี่🫰เค้าไม่เคยผิดหวังในตัวเธอเลยนะ แล้วก็ไม่เคยเสียใจที่มีเธอคอยอยู่เคียงข้างเค้า 💪💪สุขสันต์วันเกิดนะคับสุดสวย 💖";
       const msg = document.getElementById("wishMessage");
-      const loveBtn = document.getElementById("loveBtn");
-      const noBtn = document.getElementById("noBtn");
-
       let i = 0;
       const speed = 70;
       const typing = setInterval(() => {
@@ -277,17 +188,29 @@
         i++;
         if (i >= text.length) {
           clearInterval(typing);
-          // ข้อความพิมพ์เสร็จ → ลบ overlay และโชว์ปุ่ม
+
+          // ซ่อน overlay → ปุ่มกดได้
           document.getElementById("overlay").style.display = "none";
-          loveBtn.style.opacity = "1";
-          noBtn.style.opacity = "1";
+          // แสดงปุ่ม "ต่อไป"
+          document.getElementById("nextBtn").style.display = "inline-block";
         }
       }, speed);
     }
 
-    // หัวใจลอยขึ้น
+    function showQuestion() {
+      document.getElementById("wishMessage").style.display = "none";
+      document.getElementById("nextBtn").style.display = "none";
+
+      const question = document.getElementById("question");
+      question.style.display = "block";
+      question.style.opacity = 0;
+      question.style.transition = "opacity 1s ease";
+      setTimeout(() => { question.style.opacity = 1; }, 50);
+    }
+
+    let heartInterval;
     function startHearts() {
-      setInterval(() => {
+      heartInterval = setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerHTML = "❤️";
@@ -304,7 +227,6 @@
       const noBtn = document.getElementById("noBtn");
       const loveBtn = document.getElementById("loveBtn");
 
-      // เพิ่มเอฟเฟกต์ให้ปุ่มรักเต้น
       loveBtn.classList.add('love-grow');
       setTimeout(() => loveBtn.classList.remove('love-grow'), 500);
 
@@ -312,24 +234,20 @@
         document.getElementById("mainImage").src = noImages[wrongCount - 1];
       }
 
-      // ขยายขนาดปุ่มรัก
       let loveSize = 1.8 + wrongCount * 0.4;
       loveBtn.style.fontSize = loveSize + "rem";
       loveBtn.style.padding = (18 + wrongCount * 4) + "px " + (30 + wrongCount * 6) + "px";
 
-      // ลดขนาดปุ่มไม่รัก
       let noSize = Math.max(1.8 - wrongCount * 0.2, 0.8);
       noBtn.style.fontSize = noSize + "rem";
       noBtn.style.padding = Math.max(8, 18 - wrongCount * 2) + "px " + Math.max(15, 30 - wrongCount * 3) + "px";
 
-      // เปลี่ยนสีพื้นหลังปุ่มรักให้เด่นขึ้น
       loveBtn.style.background = `hsl(${340 + wrongCount * 5}, 100%, 50%)`;
       loveBtn.style.boxShadow = `0 0 ${10 + wrongCount * 2}px rgba(255, 0, 64, 0.7)`;
 
       if (wrongCount >= 5) {
         noBtn.style.display = "none";
-        // ข้อความพิเศษเมื่อปุ่มไม่รักหายไป
-        document.getElementById("finalMessage").innerText = "สุดท้ายเธอก็ต้องเลือกรักฉันสินะ! 😘";
+        document.getElementById("finalMessage").innerText = "ตอบรักเดี๋ยวนี้เลย เค้าบังคับ";
       }
     }
 
@@ -341,7 +259,6 @@
       document.getElementById("loveBtn").style.display = "none";
       document.getElementById("noBtn").style.display = "none";
       
-      // เพิ่มหัวใจมากขึ้น
       clearInterval(heartInterval);
       setInterval(() => {
         for (let i = 0; i < 5; i++) {
@@ -355,20 +272,6 @@
           setTimeout(() => heart.remove(), 8000);
         }
       }, 300);
-    }
-
-    let heartInterval;
-    function startHearts() {
-      heartInterval = setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.bottom = "0px";
-        heart.style.fontSize = (25 + Math.random()*25) + "px";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 8000);
-      }, 600);
     }
   </script>
 </body>
