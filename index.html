@@ -99,6 +99,15 @@
       background: rgba(0,0,0,0);
       z-index: 1000;
     }
+     /* ปรับขนาดสำหรับหน้าจอเล็ก */
+    @media (max-width: 700px) {
+      h1 { font-size: 1.2em; }
+      h2 { font-size: 1.1em; }
+      input, button { font-size: 0.9em; padding: 8px 16px; }
+      #finalMessage { font-size: 1.2em; }
+      #wishMessage { font-size: 0.9em; }
+      #loveBtn, #noBtn { font-size: 1em; padding: 8px 16px; }
+    }
   </style>
 </head>
 <body>
@@ -242,3 +251,4 @@
   </script>
 </body>
 </html>
+
