@@ -101,13 +101,19 @@
     }
 
      /* ปรับขนาดสำหรับหน้าจอเล็ก */
-    @media (max-width: 550px) {
+    @media (max-width: 500px) {
       h1 { font-size: 1.2em; }
       h2 { font-size: 1.1em; }
       input, button { font-size: 0.9em; padding: 8px 16px; }
       #finalMessage { font-size: 1.2em; }
       #wishMessage { font-size: 0.9em; }
       #loveBtn, #noBtn { font-size: 1em; padding: 8px 16px; }
+    }
+
+    #page1, #page2 {
+      width: 100%;
+      max-width: 400px;  /* กำหนดความกว้างสูงสุด */
+      padding: 10px;
     }
   </style>
 </head>
