@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to top right, #ffb6c1, #ffd1dc);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1, h2, p {
+      color: white;
+      text-shadow: 2px 2px 4px #ff69b4;
+    }
+
+    input, button {
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #loveBtn, #noBtn {
+      font-size: 1.5em;
+      padding: 12px 25px;
+      background: #ff3366;
+      color: white;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #noBtn {
+      background: #666;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2em;
+      color: red;
+      animation: floatUp 8s linear forwards;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    #page2 {
+      display: none;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 1s ease;
+    }
+
+    #page2.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #mainImage {
+      width: 220px;
+      height: 220px;
+      border-radius: 20px;
+      margin: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    #finalMessage {
+      font-size: 2em;
+      color: hwb(326 0% 16%);
+      margin-top: 20px;
+    }
+
+    #wishMessage {
+      font-size: 1.3em;
+      color: yellow;
+      margin: 10px 0;
+      white-space: pre-line;
+    }
+
+    /* overlay ล็อคหน้าจอ */
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0);
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- หน้าแรก -->
+  <div id="page1">
+    <h1>วันนี้ตรงกับวันสำคัญของใครนะ? 🤔🤔</h1>
+    <input type="text" id="nameInput" placeholder="กรอกรหัสลับสุดยอด...">
+    <button onclick="checkName()">ตกลง</button>
+    <p id="error" style="color:yellow;"></p>
+
+    <audio id="bgMusic" src="Pretty Eyes.mp3" loop></audio>
+    <audio id="yaySound" src="yay.mp3"></audio>
+  </div>
+
+  <!-- overlay ล็อคหน้าจอ -->
+  <div id="overlay" style="display:none;"></div>
+
+  <!-- หน้าอวยพร -->
+  <div id="page2">
+    <h1 id="birthdayTitle">สุขสันต์วันเกิด🎂</h1>
+    <img id="mainImage" src="love.jpg" alt="รูปเเฟน">
+    <p id="wishMessage"></p>
+    
+    <div id="buttons">
+      <button id="loveBtn" onclick="loveClicked()">รัก 💖</button>
+      <button id="noBtn" onclick="noClicked()">ไม่รัก 💔</button>
+    </div>
+    <h2 id="finalMessage"></h2>
+  </div>
+
+  <script>
+    let wrongCount = 0;
+    const correctName = "05/01/2550";
+
+    const noImages = [
+      "https://media.tenor.com/IiOXtwAciV8AAAAM/sad.gif",
+      "https://media.tenor.com/NQfq1liFH-8AAAAM/byuntear-sad.gif",
+      "https://media.tenor.com/Vtf_YWHQBNUAAAAM/cry-crying.gif",
+      "https://media.tenor.com/G2p64oScTY8AAAAm/sad.webp",
+      "https://media.tenor.com/-sW_3ouWIcYAAAAM/emoji-depressed-emoji.gif",
+    ];
+
+    function checkName() {
+      const input = document.getElementById("nameInput").value.trim();
+      if (input === correctName) {
+        document.getElementById("page1").style.display = "none";
+        const page2 = document.getElementById("page2");
+        page2.style.display = "block";
+
+        // แสดง overlay ล็อคหน้าจอ
+        document.getElementById("overlay").style.display = "block";
+
+        // เสียงเพลงและ YAY
+        const music = document.getElementById("bgMusic");
+        const yay = document.getElementById("yaySound");
+        music.play().catch(() => {
+          alert("กดตกลงเพื่อเริ่มเล่นเพลง 🎶");
+          music.play();
+        });
+        yay.play();
+
+        // แอนิเมชันโชว์หน้า
+        setTimeout(() => page2.classList.add("show"), 100);
+
+        // เริ่มหัวใจ
+        startHearts();
+
+        // พิมพ์ข้อความอวยพรทีละตัว
+        typeMessage();
+      } else {
+        document.getElementById("error").innerText = "ลองใหม่สิ ยังไม่ถูกนะ 😉";
+      }
+    }
+
+    function typeMessage() {
+      const text = "ขอบคุณนะที่อยู่กับเค้ามาโดยตลอด🥰 รักเธอมากๆๆๆเลยนะคับคนดีของพี่🫰เค้าไม่เคยผิดหวังในตัวเธอเลยนะ แล้วก็ไม่เคยเสียใจที่มีเธอคอยอยู่เคียงข้างเค้า 💪💪สุขสันต์วันเกิดนะคับสุดสวย 💖\nเเล้วเธอหละรักเค้าไหม??";
+      const msg = document.getElementById("wishMessage");
+      const loveBtn = document.getElementById("loveBtn");
+      const noBtn = document.getElementById("noBtn");
+
+      let i = 0;
+      const speed = 70;
+      const typing = setInterval(() => {
+        msg.textContent += text[i];
+        i++;
+        if (i >= text.length) {
+          clearInterval(typing);
+          // ข้อความพิมพ์เสร็จ → ลบ overlay และโชว์ปุ่ม
+          document.getElementById("overlay").style.display = "none";
+          loveBtn.style.opacity = "1";
+          noBtn.style.opacity = "1";
+        }
+      }, speed);
+    }
+
+    // หัวใจลอยขึ้น
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.bottom = "0px";
+        heart.style.fontSize = (20 + Math.random()*20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }, 600);
+    }
+
+    function noClicked() {
+      wrongCount++;
+      const noBtn = document.getElementById("noBtn");
+      const loveBtn = document.getElementById("loveBtn");
+
+      if (wrongCount <= noImages.length) {
+        document.getElementById("mainImage").src = noImages[wrongCount - 1];
+      }
+
+      let loveSize = 1.5 + wrongCount * 0.4;
+      loveBtn.style.fontSize = loveSize + "em";
+      loveBtn.style.padding = (12 + wrongCount * 4) + "px " + (25 + wrongCount * 6) + "px";
+
+      let noSize = Math.max(1.5 - wrongCount * 0.2, 0.5);
+      noBtn.style.fontSize = noSize + "em";
+      noBtn.style.padding = Math.max(5, 12 - wrongCount * 2) + "px " + Math.max(10, 25 - wrongCount * 3) + "px";
+
+      if (wrongCount >= 5) {
+        noBtn.style.display = "none";
+      }
+    }
+
+    function loveClicked() {
+      const yippeeSound = new Audio("yippee.mp3");
+        yippeeSound.play();  
+      document.getElementById("finalMessage").innerText = "คร้าบบ เค้าก็รักอ้วนเหมือนกันนะ 💕";
+      document.getElementById("mainImage").src = "https://media.tenor.com/5nSKlBlwdkIAAAAm/cat.webp";
+      document.getElementById("loveBtn").style.display = "none";
+      document.getElementById("noBtn").style.display = "none";
+    }
+  </script>
+</body>
+</html>
