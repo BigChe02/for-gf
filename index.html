@@ -3,114 +3,215 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Surprise</title>
+  <title>Birthday Surprise 🎉</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sriracha&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to top right, #ffb6c1, #ffd1dc);
-      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #ffb6c1, #ffd1dc, #ffe4ec);
+      background-size: 300% 300%;
+      animation: bgMove 8s infinite alternate ease-in-out;
+      font-family: 'Sriracha', cursive;
       overflow: hidden;
       text-align: center;
       padding: 15px;
+      color: white;
     }
-    h1, h2, p { color: white; text-shadow: 2px 2px 4px #ff69b4; }
-    h1 { font-size: 2.2rem; margin-bottom: 20px; }
-    h2 { font-size: 1.8rem; }
-    p { font-size: 1.2rem; line-height: 1.5; }
+
+    @keyframes bgMove {
+      0% { background-position: left top; }
+      100% { background-position: right bottom; }
+    }
+
+    h1, h2, p { text-shadow: 2px 2px 6px rgba(255, 105, 180, 0.7); }
+
+    h1 { font-size: 2.5rem; margin-bottom: 20px; }
+    h2 { font-size: 1.9rem; margin-top: 20px; }
+    p { font-size: 1.3rem; line-height: 1.5; }
+
     input, button {
       padding: 18px 30px;
       margin: 15px;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       border: none;
       border-radius: 25px;
       cursor: pointer;
       transition: all 0.3s ease;
       width: 90%;
       max-width: 400px;
+      font-family: 'Poppins', sans-serif;
     }
+
     input { text-align: center; }
 
-    /* ปุ่มเลือกรัก/ไม่รัก */
+    button:hover { transform: scale(1.05); }
+
     #loveBtn, #noBtn {
       font-size: 1.8rem;
       padding: 18px 30px;
       color: white;
-      opacity: 1;
-      transition: all 0.5s ease;
-      min-width: 180px;
-      border-radius: 25px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
     }
-    #loveBtn { background: #ff3366; }
-    #loveBtn:hover { transform: scale(1.05); background: #ff0040; }
-    #noBtn { background: #666; }
-    #noBtn:hover { background: #555; }
 
-    /* ปุ่มต่อไป */
+    #loveBtn { background: #ff4081; }
+    #loveBtn:hover { background: #ff006e; }
+
+    #noBtn { background: #999; }
+    #noBtn:hover { background: #777; }
+
     #nextBtn {
-      background: #ff69b4;   /* สีชมพู */
+      background: #ff69b4;
       color: white;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       padding: 15px 25px;
       border-radius: 25px;
       display: none;
       cursor: pointer;
       transition: transform 0.3s, background 0.3s;
+      box-shadow: 0 3px 10px rgba(255, 182, 193, 0.5);
     }
-    #nextBtn:hover {
-      background: #ff1493;
-      transform: scale(1.05);
-    }
+    #nextBtn:hover { background: #ff1493; }
 
     .heart {
       position: absolute;
       font-size: 2.5rem;
       color: red;
       animation: floatUp 8s linear forwards;
+      z-index: 5;
     }
+
     @keyframes floatUp {
       from { transform: translateY(0); opacity: 1; }
       to { transform: translateY(-120vh); opacity: 0; }
     }
 
-    #page2 { display: none; opacity: 0; transform: scale(0.9); transition: all 1s ease; width: 100%; }
+    #page2 {
+      display: none;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 1s ease;
+      width: 100%;
+    }
+
     #page2.show { opacity: 1; transform: scale(1); }
+
     #mainImage {
-      width: 280px; height: 280px; border-radius: 20px;
-      margin: 25px auto; object-fit: cover;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      width: 280px;
+      height: 280px;
+      border-radius: 25px;
+      margin: 25px auto;
+      object-fit: cover;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
       display: block;
       transition: transform 0.5s ease;
     }
-    #mainImage:hover { transform: scale(1.03); }
-    #finalMessage { font-size: 2.2rem; color: hwb(326 0% 16%); margin-top: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-    #wishMessage { font-size: 1.5rem; color: yellow; margin: 15px 0; white-space: pre-line; padding: 0 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0); z-index: 1000; }
-    #buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
 
-    @media (max-width: 360px) {
-      h1 { font-size: 1.8rem; }
+    #mainImage:hover { transform: scale(1.05); }
+
+    #finalMessage {
+      font-size: 2.3rem;
+      color: #ff1493;
+      margin-top: 25px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
+
+    #wishMessage {
+      font-size: 1.5rem;
+      color: #fff8b5;
+      margin: 15px 0;
+      white-space: pre-line;
+      padding: 0 10px;
+      text-shadow: 1px 1px 3px rgba(255, 20, 147, 0.7);
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0);
+      z-index: 1000;
+    }
+
+    #buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 80px;
+      height: 100px;
+      border-radius: 50% 50% 45% 55% / 60% 60% 40% 40%;
+      background: radial-gradient(circle at 30% 30%, #fff, transparent), #ff69b4;
+      animation: floatBalloon 10s infinite ease-in-out;
+      opacity: 0.8;
+    }
+
+    @keyframes floatBalloon {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-120vh) rotate(15deg); }
+    }
+
+    .balloon:nth-child(1) { left: 10%; background-color: #ff99cc; animation-delay: 0s; }
+    .balloon:nth-child(2) { left: 40%; background-color: #ff66b2; animation-delay: 2s; }
+    .balloon:nth-child(3) { left: 70%; background-color: #ff80bf; animation-delay: 4s; }
+
+    /* เอฟเฟกต์พลุ */
+    .firework {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: transparent;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: explode 1.2s ease-out forwards;
+    }
+
+    @keyframes explode {
+      from { transform: scale(0) translate(0,0); opacity: 1; }
+      to { transform: scale(1) translate(var(--x), var(--y)); opacity: 0; }
+    }
+
+    @media (max-width: 400px) {
+      h1 { font-size: 2rem; }
       #mainImage { width: 240px; height: 240px; }
       #loveBtn, #noBtn { font-size: 1.6rem; padding: 15px 25px; }
     }
-
-    .love-grow { animation: pulse 0.5s ease; }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
   </style>
 </head>
 <body>
 
-  <!-- หน้าแรก -->
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+
   <div id="page1">
-    <h1>วันนี้ตรงกับวันสำคัญของใครนะ? 🤔🤔</h1>
+    <h1>วันนี้ตรงกับวันสำคัญของใครนะ? 🎈</h1>
     <input type="text" id="nameInput" placeholder="กรอกรหัสลับสุดยอด...">
-    <button onclick="checkName()">ตกลง</button>
+    <button onclick="checkName()">ตกลง 💖</button>
     <p id="error" style="color:yellow;"></p>
 
     <audio id="bgMusic" loop>
@@ -123,18 +224,14 @@
 
   <div id="overlay" style="display:none;"></div>
 
-  <!-- หน้าอวยพร -->
   <div id="page2">
     <h1 id="birthdayTitle">สุขสันต์วันเกิด🎂</h1>
     <img id="mainImage" src="love.jpg" alt="รูปวันเกิด">
     <p id="wishMessage"></p>
-    
-    <!-- ปุ่ม "ต่อไป" -->
     <button id="nextBtn" onclick="showQuestion()">ต่อไป ➡️</button>
 
-    <!-- คำถามและปุ่มเลือก -->
     <div id="question" style="display:none; margin-top:20px;">
-      <h2>เธอรักเค้าไหม??</h2>
+      <h2>เธอรักเค้าไหม?? 💕</h2>
       <div id="buttons">
         <button id="loveBtn" onclick="loveClicked()">รัก 💖</button>
         <button id="noBtn" onclick="noClicked()">ไม่รัก 💔</button>
@@ -161,7 +258,6 @@
         document.getElementById("page1").style.display = "none";
         const page2 = document.getElementById("page2");
         page2.style.display = "block";
-
         document.getElementById("overlay").style.display = "block";
 
         const music = document.getElementById("bgMusic");
@@ -172,26 +268,24 @@
 
         setTimeout(() => page2.classList.add("show"), 100);
         startHearts();
+        createFireworks();
         typeMessage();
       } else {
-        document.getElementById("error").innerText = "ลองใหม่สิ ยังไม่ถูกนะ 😉";
+        document.getElementById("error").innerText = "ลองใหม่สิ ยังไม่ถูกนะเบบี๋ 😉";
       }
     }
 
     function typeMessage() {
-      const text = "ขอบคุณนะที่อยู่กับเค้ามาโดยตลอด🥰 รักเธอมากๆๆๆเลยนะคับคนดีของพี่🫰เค้าไม่เคยผิดหวังในตัวเธอเลยนะ แล้วก็ไม่เคยเสียใจที่มีเธอคอยอยู่เคียงข้างเค้า 💪💪สุขสันต์วันเกิดนะคับสุดสวย 💖";
+      const text = "ขอบคุณนะที่อยู่กับเค้ามาโดยตลอด🥰 \nรักเธอมากๆๆๆเลยนะคับคนดีของพี่🫰 \nเค้าไม่เคยผิดหวังในตัวเธอเลยนะ\nที่เธอคอยอยู่เคียงข้างเค้าตลอดมา 💪💪 \nสุขสันต์วันเกิดนะคับสุดสวย 💖🎉";
       const msg = document.getElementById("wishMessage");
       let i = 0;
-      const speed = 70;
+      const speed = 100;
       const typing = setInterval(() => {
         msg.textContent += text[i];
         i++;
         if (i >= text.length) {
           clearInterval(typing);
-
-          // ซ่อน overlay → ปุ่มกดได้
           document.getElementById("overlay").style.display = "none";
-          // แสดงปุ่ม "ต่อไป"
           document.getElementById("nextBtn").style.display = "inline-block";
         }
       }, speed);
@@ -200,7 +294,6 @@
     function showQuestion() {
       document.getElementById("wishMessage").style.display = "none";
       document.getElementById("nextBtn").style.display = "none";
-
       const question = document.getElementById("question");
       question.style.display = "block";
       question.style.opacity = 0;
@@ -222,6 +315,29 @@
       }, 600);
     }
 
+    // เอฟเฟกต์พลุ 🎆
+    function createFireworks() {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const firework = document.createElement("div");
+          firework.classList.add("firework");
+          for (let j = 0; j < 20; j++) {
+            const particle = document.createElement("div");
+            particle.classList.add("particle");
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = 150 + Math.random() * 150;
+            const color = `hsl(${Math.random()*360}, 100%, 70%)`;
+            particle.style.background = color;
+            particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+            particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+            firework.appendChild(particle);
+          }
+          document.body.appendChild(firework);
+          setTimeout(() => firework.remove(), 1200);
+        }, i * 400);
+      }
+    }
+
     function noClicked() {
       wrongCount++;
       const noBtn = document.getElementById("noBtn");
@@ -234,20 +350,12 @@
         document.getElementById("mainImage").src = noImages[wrongCount - 1];
       }
 
-      let loveSize = 1.8 + wrongCount * 0.4;
-      loveBtn.style.fontSize = loveSize + "rem";
-      loveBtn.style.padding = (18 + wrongCount * 4) + "px " + (30 + wrongCount * 6) + "px";
-
-      let noSize = Math.max(1.8 - wrongCount * 0.2, 0.8);
-      noBtn.style.fontSize = noSize + "rem";
-      noBtn.style.padding = Math.max(8, 18 - wrongCount * 2) + "px " + Math.max(15, 30 - wrongCount * 3) + "px";
-
-      loveBtn.style.background = `hsl(${340 + wrongCount * 5}, 100%, 50%)`;
-      loveBtn.style.boxShadow = `0 0 ${10 + wrongCount * 2}px rgba(255, 0, 64, 0.7)`;
+      loveBtn.style.fontSize = (1.8 + wrongCount * 0.4) + "rem";
+      noBtn.style.fontSize = Math.max(1.8 - wrongCount * 0.2, 0.8) + "rem";
 
       if (wrongCount >= 5) {
         noBtn.style.display = "none";
-        document.getElementById("finalMessage").innerText = "ตอบรักเดี๋ยวนี้เลย เค้าบังคับ";
+        document.getElementById("finalMessage").innerText = "ตอบรักเดี๋ยวนี้เลย เค้าบังคับ 😆";
       }
     }
 
@@ -264,7 +372,7 @@
         for (let i = 0; i < 5; i++) {
           const heart = document.createElement("div");
           heart.classList.add("heart");
-          heart.innerHTML = "❤️";
+          heart.innerHTML = "💖";
           heart.style.left = Math.random() * window.innerWidth + "px";
           heart.style.bottom = "0px";
           heart.style.fontSize = (30 + Math.random()*30) + "px";
